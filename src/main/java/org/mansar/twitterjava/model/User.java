@@ -32,7 +32,7 @@ public class User {
     @Column(nullable = false) private String country;
     @Column(nullable = false) private String email;
     @Column(nullable = false) private String password;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user") private List<Tweet> tweets;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tweetedBy") private List<Tweet> tweets;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;

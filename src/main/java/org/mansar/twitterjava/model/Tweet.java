@@ -1,5 +1,6 @@
 package org.mansar.twitterjava.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 public class Tweet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tweetID")
     private Long id;
     private String tweetText;
     @CreatedDate
