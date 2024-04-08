@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mansar.twitterjava.config.SecurityConfig;
 import org.mansar.twitterjava.security.service.JwtService;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +18,6 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;

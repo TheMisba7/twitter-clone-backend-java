@@ -23,3 +23,7 @@ create table if not exists tweets(
 );
 
 alter table tweets add constraint tweet_user_fk foreign key(tweetedBY) references users(userID);
+
+--changeset misba7:admin
+INSERT INTO users (firstname, lastname, birthday, country, email, password, roles)
+VALUES ('Abdeddaim', 'Mansar', '2001-06-026 00:00:00', 'MA', 'a.mansar@nuitee.com', '$2y$10$.FD8GY378pf58t.mm9JnKuViqjZdT2dVSog0dFziKQsuEROP4f7p.', ARRAY['ADMIN'::user_role]);

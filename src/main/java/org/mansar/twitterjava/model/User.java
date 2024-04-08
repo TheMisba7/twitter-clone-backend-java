@@ -1,7 +1,6 @@
 package org.mansar.twitterjava.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity(name = "users")
 @Getter @Setter
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -38,7 +37,6 @@ public class User implements UserDetails {
     @Column(nullable = false) private String email;
     @Column(nullable = false) private String password;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tweetedBy") private List<Tweet> tweets;
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 

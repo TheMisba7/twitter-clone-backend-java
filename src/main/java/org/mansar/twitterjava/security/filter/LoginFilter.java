@@ -1,14 +1,17 @@
 package org.mansar.twitterjava.security.filter;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.mansar.twitterjava.dto.LoginResponse;
 import org.mansar.twitterjava.security.service.JwtService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,13 +21,30 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
+
+    public LoginFilter(JwtService jwtService, ObjectMapper objectMapper, @Lazy AuthenticationManager authenticationManager) {
+        this.jwtService = jwtService;
+        this.objectMapper = objectMapper;
+        super.setAuthenticationManager(authenticationManager);
+    }
+
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        return super.attemptAuthentication(request, response);
+        try {
+            JsonNode jsonNode = objectMapper.readTree(request.getReader());
+            String username = jsonNode.get("username").asText("");
+            String password = jsonNode.get("password").asText();
+            UsernamePasswordAuthenticationToken authRequest = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
+            this.setDetails(request, authRequest);
+            return this.getAuthenticationManager().authenticate(authRequest);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
