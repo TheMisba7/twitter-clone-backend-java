@@ -10,11 +10,12 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "tweets")
 @Getter @Setter
 @NoArgsConstructor
 public class Tweet {
@@ -22,11 +23,20 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tweetID")
     private Long id;
+    @Column(name = "tweettext")
     private String tweetText;
-    @CreatedDate
+    @CreationTimestamp
+    @Column(name = "tweetedat")
     private LocalDateTime tweetedAt;
+    @Column(name = "updatedat")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
     @ManyToOne
-    @JoinColumn(name = "userID")
+    @JoinColumn(name = "tweetedby")
     private User tweetedBy;
+
+    public Tweet(String tweetText, User tweetedBy) {
+        this.tweetText = tweetText;
+        this.tweetedBy = tweetedBy;
+    }
 }
