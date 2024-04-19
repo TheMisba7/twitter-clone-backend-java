@@ -11,9 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter @Setter
 public class TweetDTO {
-    private Long id;
+    private Long  id;
     private String tweetText;
     private LocalDateTime tweetedAt;
     private LocalDateTime updatedAt;
-    private Long tweetedBy;
 }

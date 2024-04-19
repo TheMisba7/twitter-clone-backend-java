@@ -1,8 +1,9 @@
 package org.mansar.twitterjava.api;
 
 import org.mansar.twitterjava.app.TweetApp;
-import org.mansar.twitterjava.dto.TweetDTO;
+import org.mansar.twitterjava.dto.NewTweet;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ public class TweetController {
     }
 
     @PostMapping
-    public void create(TweetDTO tweetDTO) {
+    public void create(@RequestBody NewTweet tweetDTO) {
         tweetApp.create(tweetDTO);
     }
 }
