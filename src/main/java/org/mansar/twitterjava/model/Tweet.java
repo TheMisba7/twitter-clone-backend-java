@@ -29,4 +29,9 @@ public class Tweet {
     @ManyToOne
     @JoinColumn(name = "userID")
     private User tweetedBy;
+
+    public Tweet(String tweetText, User tweetedBy) {
+        this.tweetText = tweetText;
+        this.tweetedBy = tweetedBy;
+    }
 }
