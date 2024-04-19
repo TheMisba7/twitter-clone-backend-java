@@ -27,3 +27,13 @@ alter table tweets add constraint tweet_user_fk foreign key(tweetedBY) reference
 --changeset misba7:admin
 INSERT INTO users (firstname, lastname, birthday, country, email, password, roles)
 VALUES ('Abdeddaim', 'Mansar', '2001-06-026 00:00:00', 'MA', 'a.mansar@nuitee.com', '$2y$10$.FD8GY378pf58t.mm9JnKuViqjZdT2dVSog0dFziKQsuEROP4f7p.', ARRAY['ADMIN'::user_role]);
+
+--changeset misba7:follower
+create table if not exists user_follower(
+    id BIGSERIAL PRIMARY KEY,
+    follower_id BIGSERIAL NOT NULL,
+    followee_id BIGSERIAL NOT NULL
+);
+
+alter table user_follower add constraint follower_user_fk foreign key(follower_id) references users(userID);
+alter table user_follower add constraint followee_user_fk foreign key(followee_id) references users(userID);

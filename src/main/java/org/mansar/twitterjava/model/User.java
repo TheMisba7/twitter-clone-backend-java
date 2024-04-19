@@ -39,6 +39,10 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tweetedBy") private List<Tweet> tweets;
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Follower> followers;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Follower> following;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
