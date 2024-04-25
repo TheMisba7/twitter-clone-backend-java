@@ -88,17 +88,17 @@
                     <source>${java.version}</source> <!-- Java version compatible with your project -->
                     <target>${java.version}</target> <!-- Java version compatible with your project -->
                     <annotationProcessorPaths>
-                        <!-- Lombok Annotation Processor -->
+                      <!--  &lt;!&ndash; Lombok Annotation Processor &ndash;&gt;
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </path>
-                        <!-- MapStruct Annotation Processor -->
+                        &lt;!&ndash; MapStruct Annotation Processor &ndash;&gt;
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>1.5.5.Final</version> <!-- Replace with the latest version -->
-                        </path>
+                            <version>1.5.5.Final</version> &lt;!&ndash; Replace with the latest version &ndash;&gt;
+                        </path>-->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
