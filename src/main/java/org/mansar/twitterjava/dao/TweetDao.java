@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface TweetDao extends JpaRepository<Tweet, Long> {
     List<Tweet> getTweetByTweetedBy(User tweetedBy);
+    //don't get confuse!! TweetedBy = User, so it should be called findByUserId
+    List<Tweet> findByTweetedByIdIn(long[] ids);
 }

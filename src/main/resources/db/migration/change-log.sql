@@ -51,3 +51,6 @@ create table if not exists user_follower(
 
 alter table user_follower add constraint follower_user_fk foreign key(follower_id) references users(id);
 alter table user_follower add constraint followee_user_fk foreign key(followee_id) references users(id);
+
+--changeset misba7:missingColumn
+alter table user_follower add column followed_at TIMESTAMP NOT NULL;

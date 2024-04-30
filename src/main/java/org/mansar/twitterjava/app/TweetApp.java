@@ -7,7 +7,6 @@ import org.mansar.twitterjava.dto.TweetDTO;
 import org.mansar.twitterjava.dto.mapper.TweetMapper;
 import org.mansar.twitterjava.model.Tweet;
 import org.mansar.twitterjava.model.User;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +23,6 @@ public class TweetApp extends AbstractApp<Tweet, TweetDao>{
         this.tweetDao = dao;
         this.userDao = userDao;
         this.tweetMapper = tweetMapper;
-    }
-
-    public static User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public void create(NewTweet tweetDTO) {
