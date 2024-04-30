@@ -10,8 +10,9 @@ import org.mansar.twitterjava.model.Tweet;
 import org.mansar.twitterjava.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.LongStream;
+import java.util.Set;
 
 @Service
 public class FeedApp extends AbstractApp<Follower, FeedDao>{
@@ -35,11 +36,11 @@ public class FeedApp extends AbstractApp<Follower, FeedDao>{
 
     public List<TweetDTO> getUserFeed() {
         User currentUser = getCurrentUser();
-        //todo get the users that the current user is following
-        LongStream following = dao.findByFollowerId(currentUser.getId())
-                .stream().mapToLong(f -> f.getFollowee().getId());
-        //todo get recent tweets tweeted by fetched users
-        long[] ids = following.toArray();
+        Set<Long> ids = new HashSet<>();
+        //todo no need for this loop, get list of ids directly from dao
+        for (Follower follower: dao.findByFollowerId(currentUser.getId())) {
+            ids.add(follower.getFollowee().getId());
+        }
         List<Tweet> in = tweetDao.findByTweetedByIdIn(ids);
         return tweetMapper.toDTO(in);
 
