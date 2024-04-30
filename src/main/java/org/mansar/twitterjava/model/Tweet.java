@@ -21,18 +21,15 @@ import java.time.LocalDateTime;
 public class Tweet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tweetID")
+    @Column(name = "tweet_id")
     private Long id;
-    @Column(name = "tweettext")
     private String tweetText;
     @CreationTimestamp
-    @Column(name = "tweetedat")
     private LocalDateTime tweetedAt;
-    @Column(name = "updatedat")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @ManyToOne
-    @JoinColumn(name = "tweetedby")
+    @JoinColumn(name = "tweeted_by")
     private User tweetedBy;
 
     public Tweet(String tweetText, User tweetedBy) {

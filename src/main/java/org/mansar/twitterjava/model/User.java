@@ -8,6 +8,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +30,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
-    @Column(name = "userID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     @Column(nullable = false) private String firstname;
@@ -38,7 +40,14 @@ public class User implements UserDetails {
     @Column(nullable = false) private String password;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tweetedBy") private List<Tweet> tweets;
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id")
+    )
+    private Collection<Role> roles;
     @OneToMany(fetch = FetchType.LAZY)
     private List<Follower> followers;
     @OneToMany(fetch = FetchType.LAZY)
@@ -48,7 +57,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role: roles) {
-            authorities.add(new SimpleGrantedAuthority(role.name()));
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
     }
