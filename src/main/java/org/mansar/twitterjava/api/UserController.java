@@ -3,6 +3,7 @@ package org.mansar.twitterjava.api;
 import org.mansar.twitterjava.app.UserApp;
 import org.mansar.twitterjava.dto.UserDTO;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public UserDTO create(UserDTO userDTO) {
+    public UserDTO create(@RequestBody UserDTO userDTO) {
         return userApp.create(userDTO);
     }
 }

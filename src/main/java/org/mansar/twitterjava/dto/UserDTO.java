@@ -8,8 +8,8 @@ import org.mansar.twitterjava.model.Role;
 import org.mansar.twitterjava.model.Tweet;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,5 +23,5 @@ public class UserDTO {
     private String email;
     private String password;
     private List<Tweet> tweets;
-    private Set<Role> roles;
+    private Collection<Role> roles;
 }

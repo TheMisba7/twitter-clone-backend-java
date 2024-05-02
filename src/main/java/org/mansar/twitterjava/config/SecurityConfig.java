@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.mansar.twitterjava.security.filter.JwtAuthorizationFilter;
 import org.mansar.twitterjava.security.filter.LoginFilter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    public static final String [] ALLOWED_REQUEST = {"/login", "/register"};
+    public static final String [] ALLOWED_REQUEST = {"/login", "/register", "/swagger-ui/**", "/v3/**"};
     private final LoginFilter loginFilter;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
@@ -29,6 +30,13 @@ public class SecurityConfig {
         https.addFilter(loginFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         https.csrf(AbstractHttpConfigurer::disable);
+        https.authorizeHttpRequests(
+                cst ->
+                        cst.requestMatchers(ALLOWED_REQUEST).permitAll()
+                        .requestMatchers("/api/users", HttpMethod.POST.name())
+                        .anonymous()
+                        .anyRequest().authenticated()
+        );
         https.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return https.build();
