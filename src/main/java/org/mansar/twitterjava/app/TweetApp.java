@@ -25,10 +25,9 @@ public class TweetApp extends AbstractApp<Tweet, TweetDao>{
         this.tweetMapper = tweetMapper;
     }
 
-    public void create(NewTweet tweetDTO) {
-        User user = userApp.getById(tweetDTO.getTweetedBy());
-        Tweet tweet = new Tweet(tweetDTO.getTweetText(), user);
-        super.save(tweet);
+    public TweetDTO create(NewTweet tweetDTO) {
+        Tweet tweet = new Tweet(tweetDTO.getTweetText(), getCurrentUser());
+        return tweetMapper.toDTO(super.save(tweet));
     }
 
     public List<TweetDTO> getTweets() {

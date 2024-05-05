@@ -21,8 +21,8 @@ public class TweetController {
     }
 
     @PostMapping
-    public void create(@RequestBody NewTweet tweetDTO) {
-        tweetApp.create(tweetDTO);
+    public TweetDTO create(@RequestBody NewTweet tweetDTO) {
+        return tweetApp.create(tweetDTO);
     }
     @GetMapping("")
     public List<TweetDTO> get() {

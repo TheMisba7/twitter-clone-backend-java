@@ -16,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.List;
 
 @Component
 @EnableWebSecurity
@@ -30,6 +34,7 @@ public class SecurityConfig {
         https.addFilter(loginFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         https.csrf(AbstractHttpConfigurer::disable);
+        https.cors(crs -> crs.configurationSource(corsConfig()));
         https.authorizeHttpRequests(
                 cst ->
                         cst.requestMatchers(ALLOWED_REQUEST).permitAll()
@@ -49,5 +54,17 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+
+
+    private CorsConfigurationSource corsConfig() {
+        return request -> {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedOrigins(List.of("*"));
+                config.setAllowedMethods(List.of("*"));
+                config.setAllowedHeaders(List.of("*"));
+                return config;
+            };
     }
 }
