@@ -3,16 +3,12 @@ package org.mansar.twitterjava.api;
 import org.mansar.twitterjava.app.TweetApp;
 import org.mansar.twitterjava.dto.NewTweet;
 import org.mansar.twitterjava.dto.TweetDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tweets")
+@RequestMapping("/api")
 public class TweetController {
     private final TweetApp tweetApp;
 
@@ -20,12 +16,12 @@ public class TweetController {
         this.tweetApp = tweetApp;
     }
 
-    @PostMapping
+    @PostMapping("/tweets")
     public TweetDTO create(@RequestBody NewTweet tweetDTO) {
         return tweetApp.create(tweetDTO);
     }
-    @GetMapping("")
-    public List<TweetDTO> get() {
-        return tweetApp.getTweets();
+    @GetMapping("/{userId}/tweets")
+    public List<TweetDTO> get(@PathVariable(name = "userId") Long userId) {
+        return tweetApp.getTweets(userId);
     }
 }

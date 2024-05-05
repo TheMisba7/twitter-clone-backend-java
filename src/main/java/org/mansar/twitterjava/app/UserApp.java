@@ -26,8 +26,13 @@ public class UserApp extends AbstractApp<User, UserDao> {
     public UserDTO create(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = userMapper.fromDTO(userDTO);
-        user.setRoles(List.of(roleDao.findByName("ADMIN")));
+        user.setRoles(List.of(roleDao.findByName("USER")));
         User saved = super.save(user);
         return userMapper.toDTO(saved);
+    }
+
+    public UserDTO get() {
+        User user = getCurrentUser();
+        return userMapper.toDTO(user);
     }
 }

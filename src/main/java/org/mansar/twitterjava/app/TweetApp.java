@@ -7,6 +7,7 @@ import org.mansar.twitterjava.dto.TweetDTO;
 import org.mansar.twitterjava.dto.mapper.TweetMapper;
 import org.mansar.twitterjava.model.Tweet;
 import org.mansar.twitterjava.model.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,13 +26,18 @@ public class TweetApp extends AbstractApp<Tweet, TweetDao>{
         this.tweetMapper = tweetMapper;
     }
 
+
+    @PreAuthorize("#tweetDTO.tweetedBy == authentication.principal.id")
     public TweetDTO create(NewTweet tweetDTO) {
-        Tweet tweet = new Tweet(tweetDTO.getTweetText(), getCurrentUser());
+        User user = userApp.getById(tweetDTO.getTweetedBy());
+        Tweet tweet = new Tweet(tweetDTO.getTweetText(), user);
         return tweetMapper.toDTO(super.save(tweet));
     }
 
-    public List<TweetDTO> getTweets() {
-        List<Tweet> tweetByTweetedBy = tweetDao.getTweetByTweetedBy(getCurrentUser());
+    @PreAuthorize("#userId == authentication.principal.id")
+    public List<TweetDTO> getTweets(Long userId) {
+        User user = userApp.getById(userId);
+        List<Tweet> tweetByTweetedBy = tweetDao.getTweetByTweetedBy(user);
         return tweetMapper.toDTO(tweetByTweetedBy);
     }
 }

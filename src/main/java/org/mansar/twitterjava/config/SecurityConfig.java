@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,6 +25,7 @@ import java.util.List;
 @Component
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
     public static final String [] ALLOWED_REQUEST = {"/login", "/register", "/swagger-ui/**", "/v3/**"};
     private final LoginFilter loginFilter;
@@ -39,7 +41,7 @@ public class SecurityConfig {
                 cst ->
                         cst.requestMatchers(ALLOWED_REQUEST).permitAll()
                         .requestMatchers("/api/users", HttpMethod.POST.name())
-                        .anonymous()
+                        .permitAll()
                         .anyRequest().authenticated()
         );
         https.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

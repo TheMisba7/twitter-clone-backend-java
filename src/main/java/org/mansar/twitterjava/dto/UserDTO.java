@@ -22,6 +22,5 @@ public class UserDTO {
     private String country;
     private String email;
     private String password;
-    private List<Tweet> tweets;
     private Collection<Role> roles;
 }
